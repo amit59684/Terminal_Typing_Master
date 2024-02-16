@@ -17,6 +17,15 @@ def update_leaderboard(username, wpm):
 
     leaderboard.append({'username': username, 'wpm': wpm})
 
+    # Sort leaderboard by WPM
+    leaderboard = sorted(leaderboard, key=lambda x: x['wpm'], reverse=True)
+
+    # Save updated leaderboard
+    with open(LEADERBOARD_FILE, 'w') as file:
+        json.dump(leaderboard, file, indent=2)
+
+    
+   
 def load_words_from_json(category):
     try:
         with open(WORD_LIST_FILE, 'r') as file:
