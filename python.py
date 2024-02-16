@@ -1,3 +1,22 @@
+import json
+import time
+import sys
+
+
+WORD_LIST_FILE = 'word_list.json'
+LEADERBOARD_FILE = 'leaderboard.json'
+TIME_LIMIT = 60  # seconds for time-based challenge mode
+
+def update_leaderboard(username, wpm):
+    
+    try:
+        with open(LEADERBOARD_FILE, 'r') as file:
+            leaderboard = json.load(file)
+    except (FileNotFoundError, json.decoder.JSONDecodeError):
+        leaderboard = []
+
+    leaderboard.append({'username': username, 'wpm': wpm})
+
 def load_words_from_json(category):
     try:
         with open(WORD_LIST_FILE, 'r') as file:
@@ -41,16 +60,14 @@ def main():
                 print("Word list file not found.")
                 sys.exit()
 
-            # Choose typing category
+            
             category = input("Enter the typing category: ")
             words = load_words_from_json(category)
 
-            # Check if the category exists
             if not words:
                 print(f"'{category}' is not a valid category. Please choose a different one.")
                 continue
 
-            # Start typing test
             start_time = time.time()
             typed_words = get_user_input().split()
             end_time = time.time()
@@ -73,7 +90,7 @@ def main():
             show_leaderboard()
 
         elif choice == '3':
-            print("Thank you for using Terminal Typing Master. Goodbye!")
+            print("Thank you for using Terminal Typing Master!")
             sys.exit()
 
         else:
