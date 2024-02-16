@@ -2,7 +2,6 @@ import json
 import time
 import sys
 
-
 WORD_LIST_FILE = 'word_list.json'
 LEADERBOARD_FILE = 'leaderboard.json'
 TIME_LIMIT = 60  # seconds for time-based challenge mode
@@ -23,8 +22,17 @@ def update_leaderboard(username, wpm):
     # Save updated leaderboard
     with open(LEADERBOARD_FILE, 'w') as file:
         json.dump(leaderboard, file, indent=2)
+        
+def show_leaderboard():
+    try:
+        with open(LEADERBOARD_FILE, 'r') as file:
+            leaderboard = json.load(file)
+            print("\nLeaderboard:")
+            for entry in leaderboard:
+                print(f"{entry['username']} - {entry['wpm']} WPM")
+    except FileNotFoundError:
+        print("\nLeaderboard is empty.")
 
-    
    
 def load_words_from_json(category):
     try:
